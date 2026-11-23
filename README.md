@@ -4,7 +4,7 @@ Independent work by [helloitswill](https://github.com/helloitswill), with AI ass
 
 ## L-meta-617 · How many gates detect an edge of the cube?
 
-The minimum is **13** for two-input monotone AND/OR circuits, including circuits that reuse intermediate results. Lean checks a 13-gate circuit against the posted predicate. Two exhaustive programs exclude circuits of size 12 or smaller. A short gate-elimination argument also refutes the posted budget of 10. The [cube result and reproduction instructions](L-meta-617/README.md) include the programs, construction, and written proof.
+The minimum is **13** for two-input monotone AND/OR circuits, including circuits that reuse intermediate results. Lean checks a 13-gate circuit against the posted predicate. Two exhaustive programs exclude circuits of size 12 or smaller. A Lean certificate refutes the posted budget of 10. A short gate-elimination argument explains this lower bound using the six-cycle. The [cube result and reproduction instructions](L-meta-617/README.md) include the programs, construction, and written proof.
 
 ## L-gct-086 · How large can a constant-permanent space be?
 

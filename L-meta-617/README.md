@@ -6,7 +6,7 @@
 |---|---|
 | Thirteen gates suffice | [Lean witness](Upper13.lean) verified on the exact eight-input predicate in the project's circuit model |
 | Twelve gates or fewer are impossible | [Python search](check_cube.py) and [C++17 search](row_search.cpp), using different state representations |
-| Ten gates or fewer are impossible | [Written gate-elimination proof](ExcludeTen.md) using the project's checked six-cycle theorem, with a [small graph checker](verify_graph.py) |
+| Ten gates or fewer are impossible | [Lean certificate](CertificateTen.lean) for the exact negation of the assigned statement. A separate [gate-elimination proof](ExcludeTen.md), also [checked in Lean](ExcludeTen.lean), uses the six-cycle theorem |
 
 ## The 13-gate circuit
 
@@ -42,13 +42,21 @@ c++ -std=c++17 -O3 row_search.cpp -o row_search
 
 Python reports `result=NONE` after expanding 216,952 states. C++ reports `NONE` with 946,866 states and 69,406,358 transitions. These are exhaustive computational lower bounds. The human-readable proof in [ExcludeTen.md](ExcludeTen.md) gives the weaker lower bound of 11 by a separate argument.
 
-## Reproduce the Lean upper bound
+The SHA-256 of `row_search.cpp` is `7474837f25501e13268062b667dc8b4da122400f262598d10e7792e03946977e`. This identifies the source referenced in the November 23 desk return for L-meta-617.
+
+## Reproduce the Lean proofs
 
 Use Lean 4.36.0 and the pinned Mathlib from [upstream commit 687a075](https://github.com/brilliant-hq/pequalnp-proofs/tree/687a0753bb65edc3dae1e25dee238905156733dd). From the upstream checkout's `lean` directory, run the following, substituting the path to your copy of these notes.
 
 ```sh
-lake build PEqualNP.Defs.MetaComplexityLgpMono
+lake build PEqualNP.Defs.MetaComplexityLgpMono PEqualNP.MetaComplexity.Helpers.ReadersExport PEqualNP.MetaComplexity.L106
 lake env lean /path/to/pequalnp-research-notes/L-meta-617/Upper13.lean
+lake env lean /path/to/pequalnp-research-notes/L-meta-617/ExcludeTen.lean
+lake env lean /path/to/pequalnp-research-notes/L-meta-617/CertificateTen.lean
 ```
 
 The theorem `CubeEdgeUpper.thirteen_gates_suffice` gives a gate list and checks its output on all 256 inputs. It uses Lean's kernel evaluation.
+
+The theorem `PEqualNP.Outside.Meta617.no_cube617` negates the exact posted ten-gate statement. Its proof translates any candidate circuit into a sequence of AND/OR operations, keeping track of which intermediate wires it needs later. The resulting finite certificate checks 45 representative states and their 167 admissible transitions. The file depends only on the upstream circuit definitions and Mathlib. Its axiom report lists `propext`, `Classical.choice` and `Quot.sound`. The separate exhaustive Python and C++ programs establish the stronger twelve-gate exclusion.
+
+The shorter structural proof uses upstream L106 and the circuit gate-elimination lemmas. The theorem `Cube617.eleven_le` proves that the cube needs at least 11 gates even if NOT gates are available. Its corollary `Cube617.no_ten_gates` negates the posted monotone statement. Both depend on the same three standard axioms. The exact size of 13 in these notes is for the AND/OR model.

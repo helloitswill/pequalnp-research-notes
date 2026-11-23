@@ -2,7 +2,7 @@
 
 Label the eight vertices by three-bit integers. Two vertices are adjacent when they differ in exactly one bit. The function is 1 when the selected vertices contain an edge. This is exactly the edge list in the assignment.
 
-**Claim.** No monotone circuit in the recorded model with at most ten gates computes this function. The argument uses the project's checked six-cycle lower bound. The deduction for the cube below is a written proof.
+**Claim.** No monotone circuit in the recorded model with at most ten gates computes this function. The argument uses the project's checked six-cycle lower bound. The [Lean formalization](ExcludeTen.lean) also checks this conclusion when NOT gates are allowed.
 
 ### Simplifying circuits and fixing inputs
 
