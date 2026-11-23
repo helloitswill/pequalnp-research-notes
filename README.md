@@ -1,6 +1,10 @@
 # PEqualNP research notes
 
-Independent work by [helloitswill](https://github.com/helloitswill), with AI assistance, on three questions posted by the [PEqualNP project](https://github.com/brilliant-hq/pequalnp-proofs). All three questions remain open in this work. This repository collects reproducible partial results. None has been submitted to the project's proof checker.
+Independent work by [helloitswill](https://github.com/helloitswill), with AI assistance, on four questions posted by the [PEqualNP project](https://github.com/brilliant-hq/pequalnp-proofs). The cube circuit question has an exact computational answer. The three other questions remain open in this work.
+
+## L-meta-617 · How many gates detect an edge of the cube?
+
+The minimum is **13** for two-input monotone AND/OR circuits, including circuits that reuse intermediate results. Lean checks a 13-gate circuit against the posted predicate. Two exhaustive programs exclude circuits of size 12 or smaller. A short gate-elimination argument also refutes the posted budget of 10. The [cube result and reproduction instructions](L-meta-617/README.md) include the programs, construction, and written proof.
 
 ## L-gct-086 · How large can a constant-permanent space be?
 
@@ -32,6 +36,6 @@ The project asks whether three alternating blocks of guesses can save a fixed po
 
 ## Reproducing the Lean checks
 
-Use Lean 4.36.0. The project definitions used here are at [upstream commit 3789af2](https://github.com/brilliant-hq/pequalnp-proofs/tree/3789af288ba27735ae2428ee1beffa75180f24f6), which uses [Mathlib at fc4f59e](https://github.com/leanprover-community/mathlib4/tree/fc4f59e577feb1a4956671bc04ac18aaaf8cd842).
+Use Lean 4.36.0. The cube checks use the [separate upstream revision and instructions given with the result](L-meta-617/README.md). The other three tasks use the definitions at [upstream commit 3789af2](https://github.com/brilliant-hq/pequalnp-proofs/tree/3789af288ba27735ae2428ee1beffa75180f24f6), which uses [Mathlib at fc4f59e](https://github.com/leanprover-community/mathlib4/tree/fc4f59e577feb1a4956671bc04ac18aaaf8cd842).
 
 `lean L-lib-123/ThreeBlockCheckpoints.lean` needs only Lean's standard library. For the other files, use the upstream checkout's pinned Lake environment. Run `lake build PEqualNP.Defs.Gct PEqualNP.Defs.TimeAlt` from its `lean` directory, then run each file with `lake env lean` and the path to the file in this repository. Success is a zero exit status. Seven.lean also prints the axioms used for its final theorem.
