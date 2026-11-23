@@ -1,10 +1,14 @@
 # PEqualNP research notes
 
-Independent work by [helloitswill](https://github.com/helloitswill), with AI assistance, on five questions posted by the [PEqualNP project](https://github.com/brilliant-hq/pequalnp-proofs). A six-vertex graph refutes the weighted circuit conjecture, and the cube circuit question has an exact computational answer. The three other questions remain open in this work.
+Independent work by [helloitswill](https://github.com/helloitswill), with AI assistance, on six questions posted by the [PEqualNP project](https://github.com/brilliant-hq/pequalnp-proofs). A six-vertex graph refutes the weighted circuit conjecture, and the cube circuit question has an exact computational answer. The four other questions remain open in this work.
 
 ## L-meta-662 · A counterexample to the weighted gate bound
 
 A triangle with one private leaf at each corner has six edges, no four-cycle, and minimum vertex cover three. A circuit for its edge function has weighted size nine, one below the posted bound. Connected chains of these examples give arbitrarily large shortfalls. The [counterexample and reproducible checks](L-meta-662/README.md) give the circuit and its verification.
+
+## L-meta-651 · Can NOT help shrink a Petersen graph circuit to 19 gates?
+
+Starting from one verified 20-gate circuit, we checked all 454 connected single-output sections of two through eight gates. Keeping the rest of that circuit and the inputs available to each section fixed, every replacement using a live NOT needs at least as many gates as the original section. The [argument and executable check](L-meta-651/ConeSearch.md) give the scope and the full calculation.
 
 ## L-meta-617 · How many gates detect an edge of the cube?
 
