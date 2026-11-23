@@ -1,0 +1,16 @@
+Lean 4.36.0. Mathlib fc4f59e577feb1a4956671bc04ac18aaaf8cd842.
+Each file below was checked separately using the pinned dependencies.
+
+RowCoefficients.lean
+'PermanentLevel.onRows_constant_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PermanentLevel.level_of_rotation' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+CenteredCubic.lean
+'PermanentLevel.Centered.centered_matching_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+FourthMoment.lean
+'PermanentLevel.FourthMoment.level' depends on axioms: [propext, Classical.choice, Quot.sound]
+'PermanentLevel.FourthMoment.fourth_power_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+CharacterSets.lean
+'PermanentLevel.CharacterSets.finite_group_bound' depends on axioms: [propext, Classical.choice, Quot.sound]

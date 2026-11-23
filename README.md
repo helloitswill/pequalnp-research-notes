@@ -1,6 +1,14 @@
 # PEqualNP research notes
 
-Independent work by [helloitswill](https://github.com/helloitswill), with AI assistance, on two questions posted by the [PEqualNP project](https://github.com/brilliant-hq/pequalnp-proofs). Both questions remain open in this work. This repository gives other researchers reproducible partial results. Neither result has been submitted to the project's proof checker.
+Independent work by [helloitswill](https://github.com/helloitswill), with AI assistance, on three questions posted by the [PEqualNP project](https://github.com/brilliant-hq/pequalnp-proofs). All three questions remain open in this work. This repository collects reproducible partial results. None has been submitted to the project's proof checker.
+
+## L-gct-086 · How large can a constant-permanent space be?
+
+Starting from the all-ones $n$ by $n$ matrix, how many independent complex directions can vary while its permanent stays equal to $n!$ everywhere? The project asks whether this number is always at most $Cn$ for a fixed constant $C$.
+
+The [research notes](L-gct-086/RESEARCH.md) give a written proof of a sharp bound in one case. If the space has a basis whose matrices each have at most two nonzero entries, its maximum dimension is $2n-3$ for $n\ge 2$. The notes also give bounds for independently varying rows and for spaces with zero row and column sums. The general linear bound remains open.
+
+One attempted argument would require the sum of fourth powers of entries to vanish on every centered level direction. [FourthMoment.lean](L-gct-086/FourthMoment.lean) checks an explicit 4 by 4 counterexample. The permanent stays 24 along the entire line, while the sum of fourth powers of the direction entries is 8. The [exact Python search](L-gct-086/search_rank_one.py) reproduces this example and enumerates a restricted family of rank-one directions through $n=12$. The [search output](L-gct-086/search-results.txt) and [Lean verification log](L-gct-086/lean-check.txt) are included.
 
 ## L-gct-190 · Searching for eight independent matrix directions
 
@@ -26,4 +34,4 @@ The project asks whether three alternating blocks of guesses can save a fixed po
 
 Use Lean 4.36.0. The project definitions used here are at [upstream commit 3789af2](https://github.com/brilliant-hq/pequalnp-proofs/tree/3789af288ba27735ae2428ee1beffa75180f24f6), which uses [Mathlib at fc4f59e](https://github.com/leanprover-community/mathlib4/tree/fc4f59e577feb1a4956671bc04ac18aaaf8cd842).
 
-`lean L-lib-123/ThreeBlockCheckpoints.lean` needs only Lean's standard library. For the other files, use the upstream checkout's pinned Lake environment. Run `lake build PEqualNP.Defs.TimeAlt` from its `lean` directory, then run each file with `lake env lean` and the path to the file in this repository. Success is a zero exit status. Seven.lean also prints the axioms used for its final theorem.
+`lean L-lib-123/ThreeBlockCheckpoints.lean` needs only Lean's standard library. For the other files, use the upstream checkout's pinned Lake environment. Run `lake build PEqualNP.Defs.Gct PEqualNP.Defs.TimeAlt` from its `lean` directory, then run each file with `lake env lean` and the path to the file in this repository. Success is a zero exit status. Seven.lean also prints the axioms used for its final theorem.

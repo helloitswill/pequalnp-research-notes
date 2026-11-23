@@ -1,0 +1,14 @@
+Explicit 4 by 4 polynomial coefficients: [24, 0, 0, 0, 0]
+Explicit fourth-power sum: 8
+ n  ordered nonzero multiset pairs  flat pairs
+ 2                            4           0
+ 3                            4           0
+ 4                           25           4
+ 5                           25           4
+ 6                           81           4
+ 7                           81           4
+ 8                          196          12
+ 9                          196          12
+10                          400          12
+11                          400          12
+12                          729          16
