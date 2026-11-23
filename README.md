@@ -1,6 +1,10 @@
 # PEqualNP research notes
 
-Independent work by [helloitswill](https://github.com/helloitswill), with AI assistance, on four questions posted by the [PEqualNP project](https://github.com/brilliant-hq/pequalnp-proofs). The cube circuit question has an exact computational answer. The three other questions remain open in this work.
+Independent work by [helloitswill](https://github.com/helloitswill), with AI assistance, on five questions posted by the [PEqualNP project](https://github.com/brilliant-hq/pequalnp-proofs). A six-vertex graph refutes the weighted circuit conjecture, and the cube circuit question has an exact computational answer. The three other questions remain open in this work.
+
+## L-meta-662 · A counterexample to the weighted gate bound
+
+A triangle with one private leaf at each corner has six edges, no four-cycle, and minimum vertex cover three. A circuit for its edge function has weighted size nine, one below the posted bound. Connected chains of these examples give arbitrarily large shortfalls. The [counterexample and reproducible checks](L-meta-662/README.md) give the circuit and its verification.
 
 ## L-meta-617 · How many gates detect an edge of the cube?
 
@@ -36,6 +40,6 @@ The project asks whether three alternating blocks of guesses can save a fixed po
 
 ## Reproducing the Lean checks
 
-Use Lean 4.36.0. The cube checks use the [separate upstream revision and instructions given with the result](L-meta-617/README.md). The other three tasks use the definitions at [upstream commit 3789af2](https://github.com/brilliant-hq/pequalnp-proofs/tree/3789af288ba27735ae2428ee1beffa75180f24f6), which uses [Mathlib at fc4f59e](https://github.com/leanprover-community/mathlib4/tree/fc4f59e577feb1a4956671bc04ac18aaaf8cd842).
+Use Lean 4.36.0. The net checks use the [revision pinned in the counterexample](L-meta-662/README.md). The cube checks use the [separate upstream revision and instructions given with the result](L-meta-617/README.md). The other three tasks use the definitions at [upstream commit 3789af2](https://github.com/brilliant-hq/pequalnp-proofs/tree/3789af288ba27735ae2428ee1beffa75180f24f6), which uses [Mathlib at fc4f59e](https://github.com/leanprover-community/mathlib4/tree/fc4f59e577feb1a4956671bc04ac18aaaf8cd842).
 
 `lean L-lib-123/ThreeBlockCheckpoints.lean` needs only Lean's standard library. For the other files, use the upstream checkout's pinned Lake environment. Run `lake build PEqualNP.Defs.Gct PEqualNP.Defs.TimeAlt` from its `lean` directory, then run each file with `lake env lean` and the path to the file in this repository. Success is a zero exit status. Seven.lean also prints the axioms used for its final theorem.
