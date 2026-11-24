@@ -132,8 +132,11 @@ public:
     std::uint64_t expanded = 0;
 
     Synthesis(int n, const std::vector<int> &edges, int budget, bool smallerOptimal,
-              unsigned memoBits) : memo(std::size_t(1) << memoBits) {
+              unsigned memoBits, int firstA = -1, int firstB = -1) : memo(std::size_t(1) << memoBits) {
         if (n >= 16 || budget + 1 > capacity) throw std::runtime_error("circuit capacity");
+        bool fixedFirst = firstA >= 0;
+        if (fixedFirst && (firstB < 0 || firstA >= n || firstB >= n || firstA == firstB))
+            throw std::runtime_error("invalid first OR operands");
         std::vector<int> negative;
         auto positive = [&](int x) {
             return std::any_of(edges.begin(), edges.end(), [x](int e) { return (x & e) == e; });
@@ -174,6 +177,8 @@ public:
                     })) cover = std::min(cover, __builtin_popcount(unsigned(set)));
                 }
                 int allowance = budget - (restEdges + cover - 1);
+                // The prescribed first OR simplifies when either operand is zero.
+                if (v == firstA || v == firstB) --allowance;
                 if (allowance < 1) { impossible = true; continue; }
                 if (allowance > 8) continue;
                 tracked |= Word(1) << v;
@@ -188,11 +193,16 @@ public:
         separates.resize(1 << 17);
         cacheKeys.resize(1 << 17);
         initial.width = n;
-        initial.left = budget;
+        initial.left = budget - int(fixedFirst);
         for (int v = 0; v < n; ++v)
             for (int i = 0; i < int(examples.size()); ++i)
                 if (examples[i] & (1 << v)) initial.wires[v] |= Word(1) << i;
-        std::sort(initial.wires.begin(), initial.wires.begin() + n);
+        if (fixedFirst) {
+            Word a = initial.wires[firstA], b = initial.wires[firstB];
+            initial.wires[initial.width++] = a | b;
+            trace.push_back({a, b, a | b, false});
+        }
+        std::sort(initial.wires.begin(), initial.wires.begin() + initial.width);
     }
 
     bool impossible = false;
@@ -211,6 +221,10 @@ int main(int argc, char **argv) {
     if (argc > 4 && !smallerOptimal && std::string(argv[4]) != "--direct") return 2;
     int memoBits = argc > 5 ? std::atoi(argv[5]) : 16;
     if (memoBits < 10 || memoBits > 21) return 2;
+    if (argc > 6 && (argc != 9 || std::string(argv[6]) != "--all-live-first-or")) return 2;
+    int firstA = argc == 9 ? std::atoi(argv[7]) : -1;
+    int firstB = argc == 9 ? std::atoi(argv[8]) : -1;
+    if (argc == 9 && (firstA < 0 || firstB < 0)) return 2;
     int id, n, m, cover, processed = 0;
     while (std::cin >> id >> n >> m >> cover) {
         std::vector<int> edges;
@@ -221,7 +235,7 @@ int main(int argc, char **argv) {
         }
         if (id < first || id > last) continue;
         int budget = m + cover - 2 + offset;
-        Synthesis solver(n, edges, budget, smallerOptimal, unsigned(memoBits));
+        Synthesis solver(n, edges, budget, smallerOptimal, unsigned(memoBits), firstA, firstB);
         bool found = solver.run();
         std::cout << "kernel " << id << " n " << n << " edges " << m << " budget " << budget
                   << " " << (found ? "FOUND" : "NONE") << " states " << solver.expanded << std::endl;
