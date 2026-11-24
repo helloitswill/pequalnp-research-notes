@@ -2,6 +2,10 @@
 
 L-meta-2029 asks for graphs without triangles or four-cycles whose edge counts grow arbitrarily large relative to the size of a fan-in-two monotone circuit computing their edge functions. On a vertex subset the output must be true exactly when that subset contains an edge. The existence of the requested family remains open in this work. [Project assignment and contribution rules](https://pequalnp.com/join.txt)
 
+## Second look at a construction
+
+We tried representing the full edge function as an AND of ordered bipartite supergraph tests. For any fixed bipartition without four-cycles, a fan-in-two circuit that produces every factor on a wire and uses their conjunction has at most twice its gate count plus two original edges. On the order-three incidence example the construction requires exactly 36 factors, while the point-star circuit uses 35 gates in total. [Proof, certificates and reproduction](ChainFactors.md)
+
 ## How small can a counterexample be?
 
 Let `v` count vertices incident to an edge, let `e` count edges and let `s` count circuit gates. The circuit needs to read each of those vertices. Rewinding a gate in the output's dependency set replaces at most one demanded wire by two inputs, giving `v ≤ s+1`. At any vertex, two distinct branches of length at most two cannot meet again without making a triangle or four-cycle. Counting these branches and using Cauchy–Schwarz gives `4e² ≤ v²(v−1)`. The graph inequality is the girth-five case of the Moore bound. The Lean proof derives it directly with isolated vertices excluded. [Alon, Hoory and Linial](https://web.math.princeton.edu/~nalon/PDFS/ahl1.pdf)
