@@ -1,6 +1,10 @@
 # PEqualNP research notes
 
-Independent work by [helloitswill](https://github.com/helloitswill), with AI assistance, on eight questions posted by the [PEqualNP project](https://github.com/brilliant-hq/pequalnp-proofs). A six-vertex graph refutes the weighted circuit conjecture, and the cube circuit question has an exact computational answer. The six other questions remain open in this work.
+Independent work by [helloitswill](https://github.com/helloitswill), with AI assistance, on nine questions posted by the [PEqualNP project](https://github.com/brilliant-hq/pequalnp-proofs). A six-vertex graph refutes the weighted circuit conjecture, and the cube circuit question has an exact computational answer. A predicate on 14 bits refutes an auxiliary claim in the Heawood graph argument. The six other questions remain open in this work.
+
+## L-meta-3316 · A counterexample in the Heawood graph argument
+
+All 13 permitted pairs start on one of three incomparable inputs. Making those three the minimal true inputs forces an AND gate to take contradictory values. The [proof and reproduction instructions](L-meta-3316/README.md) give the predicate and the exact Lean statement.
 
 ## L-meta-662 · A counterexample to the weighted gate bound
 
