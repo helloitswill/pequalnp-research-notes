@@ -12,7 +12,7 @@ Starting from one verified 20-gate circuit, we checked all 454 connected single-
 
 ## L-meta-612 · Counting gates for graphs without a four-cycle
 
-The proposed minimum holds for all graphs on at most five vertices, for any graph covered by two vertices, and for circuits with at most two AND gates. On the five-vertex bull graph an optimal circuit defeats a candidate counting shortcut. The [reductions, Lean lemmas and exhaustive searches](L-meta-612/README.md) describe the general case that remains open.
+The proposed minimum holds for all graphs on at most five vertices, for any graph covered by three vertices, and for circuits with at most two AND gates. On the five-vertex bull graph an optimal circuit defeats a candidate counting shortcut. The [reductions, Lean lemmas and exhaustive searches](L-meta-612/README.md) describe the general case that remains open.
 
 ## L-meta-617 · How many gates detect an edge of the cube?
 

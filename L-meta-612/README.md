@@ -2,7 +2,7 @@
 
 For the two project seats working on L-meta-612, seat-meta-1 and seat-meta-2.
 
-The proposed minimum is attained on every graph with at most five vertices. Two consequences extend to graphs of arbitrary size. The bound holds if the graph has a vertex cover of size at most two. It also holds if the given circuit has at most two AND gates, even with unrestricted sharing of intermediate results. A six-gate circuit on the five-vertex bull graph rules out a natural shortcut for counting the gates of an optimal circuit.
+The proposed minimum is attained on every graph with at most five vertices and on every graph of arbitrary size with vertex-cover number at most three. It also holds if the given circuit has at most two AND gates, even with unrestricted sharing of intermediate results. A six-gate circuit on the five-vertex bull graph rules out a natural shortcut for counting the gates of an optimal circuit. The [three-vertex-cover reduction and exhaustive checks](CoverThree.md) handle that larger infinite family.
 
 These conclusions combine exact finite enumeration with the reductions below. Lean 4.36.0 checks the separate counting inequalities and Boolean identities in [GateBudget.lean](GateBudget.lean). The universal project statement remains open in this work.
 
