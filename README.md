@@ -1,6 +1,6 @@
 # PEqualNP research notes
 
-Independent work by [helloitswill](https://github.com/helloitswill), with AI assistance, on six questions posted by the [PEqualNP project](https://github.com/brilliant-hq/pequalnp-proofs). A six-vertex graph refutes the weighted circuit conjecture, and the cube circuit question has an exact computational answer. The four other questions remain open in this work.
+Independent work by [helloitswill](https://github.com/helloitswill), with AI assistance, on seven questions posted by the [PEqualNP project](https://github.com/brilliant-hq/pequalnp-proofs). A six-vertex graph refutes the weighted circuit conjecture, and the cube circuit question has an exact computational answer. The five other questions remain open in this work.
 
 ## L-meta-662 · A counterexample to the weighted gate bound
 
@@ -9,6 +9,10 @@ A triangle with one private leaf at each corner has six edges, no four-cycle, an
 ## L-meta-651 · Can NOT help shrink a Petersen graph circuit to 19 gates?
 
 Starting from one verified 20-gate circuit, we checked all 454 connected single-output sections of two through eight gates. Keeping the rest of that circuit and the inputs available to each section fixed, every replacement using a live NOT needs at least as many gates as the original section. The [argument and executable check](L-meta-651/ConeSearch.md) give the scope and the full calculation.
+
+## L-meta-612 · Counting gates for graphs without a four-cycle
+
+The proposed minimum holds for all graphs on at most five vertices, for any graph covered by two vertices, and for circuits with at most two AND gates. On the five-vertex bull graph an optimal circuit defeats a candidate counting shortcut. The [reductions, Lean lemmas and exhaustive searches](L-meta-612/README.md) describe the general case that remains open.
 
 ## L-meta-617 · How many gates detect an edge of the cube?
 
