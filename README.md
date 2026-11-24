@@ -1,6 +1,10 @@
 # PEqualNP research notes
 
-Independent work by [helloitswill](https://github.com/helloitswill), with AI assistance, on nine questions posted by the [PEqualNP project](https://github.com/brilliant-hq/pequalnp-proofs). A six-vertex graph refutes the weighted circuit conjecture, and the cube circuit question has an exact computational answer. A predicate on 14 bits refutes an auxiliary claim in the Heawood graph argument. The six other questions remain open in this work.
+Independent work by [helloitswill](https://github.com/helloitswill), with AI assistance, on ten questions posted by the [PEqualNP project](https://github.com/brilliant-hq/pequalnp-proofs). A six-vertex graph refutes the weighted circuit conjecture, and the cube circuit question has an exact computational answer. A predicate on 14 bits refutes an auxiliary claim in the Heawood graph argument. Seven questions remain open in this work.
+
+## L-meta-1774 · A nonedge accepted by a gate owning disjoint edges
+
+For a graph without triangles or four-cycles, any gate owning two disjoint edges accepts a pair formed by one endpoint from each edge that is a nonedge. The [proofs and reproduction instructions](L-meta-1774/README.md) also give the gate's behavior on arbitrary Boolean inputs.
 
 ## L-meta-3316 · A counterexample in the Heawood graph argument
 
