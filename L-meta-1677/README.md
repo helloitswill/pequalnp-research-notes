@@ -34,7 +34,9 @@ Remove the first gate, make its value available as a tenth input, and keep the o
 
 `fixed_first.py` encodes each later binary gate by its operation and its two earlier wire indices. A NOT repeats its unary operand in the inert second slot. The first OR is given its required value. A correct circuit can propagate constants, remove unary identity and unused gates, arrange its output last, and pad a shorter tail by repeating the output in idempotent ORs. These operations preserve the fixed first signal, which may be unused. Consequently an unsatisfiability proof on all 512 assignments would exclude every circuit at the budget. A satisfying model must be decoded and checked on every assignment before it establishes a counterexample. The search on all 512 inputs produced no verdict within the initial 90-second trial.
 
-The reduction file's outer conclusion matches the posted statement. Its proof body was checked with Lean 4.36.0 on the circuit definitions and an equivalent fan-in predicate in an isolated interface. The official project build and checker verdict are separate.
+The reduction file's outer conclusion matches the posted statement. Its proof body was checked with Lean 4.36.0 on the circuit definitions and an equivalent fan-in predicate in an isolated interface. The [hosted check](https://github.com/helloitswill/pequalnp-research-notes/actions/runs/45341373619) built the pinned verifier and definitions. GitHub reported a lost runner during kernel verification and issued no Lean verdict.
+
+This file is an archived proposal. A different reduction was subsequently merged at the same filename in [upstream PR 4338](https://github.com/brilliant-hq/pequalnp-proofs/pull/4338). The project's current directions ask contributors to accompany a split on a condition and its negation with a proof of one side. A Lean certificate for the monotone search would be needed to take that route. [Project submission directions](https://pequalnp.com/join.txt)
 
 ## Reproduction
 
