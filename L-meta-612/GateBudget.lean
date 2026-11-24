@@ -198,4 +198,37 @@ theorem two_meet_expansion (c x y z p q : Bool) :
      (x && q) || (y && p) || (z && p && q)) := by
   cases c <;> cases x <;> cases y <;> cases z <;> cases p <;> cases q <;> rfl
 
+-- For one fixed-zero vertex, a and b flag whether each operand becomes zero.
+-- The left side counts eliminated gates plus the newly pending wires; removing
+-- the old pending wires leaves the cost used by the finite induction search.
+theorem restriction_cost (a b meet keepA keepB : Bool) :
+    (a || b).toNat + (if meet then a || b else a && b).toNat +
+      (keepA && a).toNat + (keepB && b).toNat =
+    a.toNat + b.toNat + (meet && (a != b)).toNat +
+      (keepA && a).toNat + (keepB && b).toNat := by
+  cases a <;> cases b <;> cases meet <;> cases keepA <;> cases keepB <;> rfl
+
+-- In the exceptional case of the shared-AND count, the three possible edges
+-- on the accepted triple would each supply a forbidden pair of common neighbors.
+theorem independent_triple {V : Type} {adj : V → V → Prop}
+    (noSquare : ∀ u v p q, u ≠ v → p ≠ q →
+      adj u p → adj u q → adj v p → adj v q → False)
+    {a b x y r z : V} (hax : a ≠ x) (hby : b ≠ y)
+    (hrx : r ≠ x) (hbz : b ≠ z) (hry : r ≠ y) (haz : a ≠ z)
+    (hab : adj a b) (hay : adj a y) (hxb : adj x b)
+    (hrb : adj r b) (hrz : adj r z) (hra : adj r a) (hya : adj y a) :
+    ¬ (adj x y ∨ adj x z ∨ adj y z) := by
+  rintro (hxy | hxz | hyz)
+  · exact noSquare a x b y hax hby hab hay hxb hxy
+  · exact noSquare r x b z hrx hbz hrb hrz hxb hxz
+  · exact noSquare r y a z hry haz hra hrz hya hyz
+
+theorem shared_product_budget (edges cover bottom ordinary mixed active hidden mixedOr
+    duplicates coverSaving size : Nat)
+    (arms : edges + duplicates ≤ bottom + ordinary + active + hidden)
+    (centers : cover + coverSaving ≤ ordinary + active + hidden)
+    (gates : bottom + 2 * (ordinary + mixed) + mixedOr ≤ size)
+    (accounted : 2 * (active + hidden) ≤ 2 * mixed + mixedOr + duplicates + coverSaving + 1) :
+    edges + cover ≤ size + 1 := by omega
+
 end GateBudget

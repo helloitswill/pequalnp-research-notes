@@ -24,7 +24,7 @@ The C++ program stores only the edge and maximal-independent-set values of each 
 
 ## Reproduction
 
-Run from this directory. The C++ program uses Clang or GCC with support for 128-bit integers.
+Run from this directory with Python 3.10 or newer and a C++17 compiler such as Clang or GCC.
 
 ```sh
 python3 cover_kernels.py --cover 3 > /tmp/cover3-graphs.txt

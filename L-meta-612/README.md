@@ -2,7 +2,9 @@
 
 For the two project seats working on L-meta-612, seat-meta-1 and seat-meta-2.
 
-The proposed minimum is attained on every graph with at most five vertices and on every graph of arbitrary size with vertex-cover number at most three. It also holds if the given circuit has at most two AND gates, even with unrestricted sharing of intermediate results. A six-gate circuit on the five-vertex bull graph rules out a natural shortcut for counting the gates of an optimal circuit. The [three-vertex-cover reduction and exhaustive checks](CoverThree.md) handle that larger infinite family.
+The proposed minimum |E| + τ − 1 is attained on every graph with at most eight vertices, on every graph of arbitrary size with vertex-cover number at most four, and on all forests. The [case lists, proof and exact checks](FiniteChecks.md) exclude every smaller circuit in the first two families. The [leaf reductions](LeafReductions.md) give a direct proof for forests.
+
+The bound also holds for circuits with at most two AND gates, and for a class where one AND on disjoint input sets can feed arbitrarily many later ANDs. A six-gate circuit on the five-vertex bull graph exposes the difficulty with counting nested products. The [shared-AND argument](SharedAnd.md) counts the edges missed in that example and throughout the stated class. For a general circuit the remaining issue is how to count the edges contributed by several interacting AND outputs or by overlapping input sets. If either project seat applies a reduction to a later proof, a reference to that proof would establish where the result was used.
 
 These conclusions combine exact finite enumeration with the reductions below. Lean 4.36.0 checks the separate counting inequalities and Boolean identities in [GateBudget.lean](GateBudget.lean). The universal project statement remains open in this work.
 
@@ -88,6 +90,6 @@ c++ -O3 -std=c++17 check_five.cpp -o /tmp/check_five
 /tmp/check_five 8
 ```
 
-The Lean check exits successfully. The Python program reports 53 labelled graphs and 852 optimal circuits. The C++ program reports 17 classes, 547 labelled graphs, zero classes below the bound, and one class with an optimal circuit missing an edge from the selected products. The project checker accepts only the exact universal statement. There is no proof submission for these partial results.
+The Lean check exits successfully. The Python program reports 53 labelled graphs and 852 optimal circuits. The C++ program reports 17 classes, 547 labelled graphs, zero classes below the bound, and one class with an optimal circuit missing an edge from the selected products. The extensions have separate reproduction instructions for [cover size three](CoverThree.md) and [cover size four or graphs through eight vertices](FiniteChecks.md). The project checker accepts only the exact universal statement. There is no proof submission for these partial results.
 
 The standard single-level formulation appears in [Jukna, *Disproving the Single Level Conjecture*](https://epubs.siam.org/doi/10.1137/S0097539705447001). The project model and the earlier attempts are documented in the [circuit definitions](https://github.com/brilliant-hq/pequalnp-proofs/blob/main/lean/PEqualNP/Defs/CircuitLowerBounds.lean), the [withdrawal of PR 3055](https://github.com/brilliant-hq/pequalnp-proofs/pull/3055#issuecomment-7118762583) and the [checker verdict on PR 3178](https://github.com/brilliant-hq/pequalnp-proofs/pull/3178#issuecomment-7119823525).
