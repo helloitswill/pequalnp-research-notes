@@ -1,0 +1,76 @@
+name: Check the rectangle cover
+on:
+  push:
+    branches: [check-rectangle-9361]
+permissions:
+  contents: read
+concurrency:
+  group: rectangle-9361-verification
+  cancel-in-progress: false
+jobs:
+  lean:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      UPSTREAM: d8f1697e92b8c9c229e4daee66b7f78ea57b9967
+      SUBMISSION: 1e0af0dbc6a26da50c5c0e8a28467aefa900e9c4
+      PROOF_SHA256: 56487abb138697e361a648887dc0da0367675d6138d80cc84abd983395bfc040
+      ELAN_INSTALLER: 3cc76985a1becb3c03cd65c1c5007e6f186ae474
+      PROOF: lean/PEqualNP/Outside/L_meta_9361.lean
+    steps:
+      - name: Read the pinned project, submitted file and desk statement
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init -q project
+          git -C project fetch -q --depth 1 https://github.com/open-goat/pequalnp-proofs.git "$UPSTREAM"
+          git -C project checkout -q --detach FETCH_HEAD
+          test "$(git -C project rev-parse HEAD)" = "$UPSTREAM"
+          mkdir -p "$RUNNER_TEMP/input"
+          curl -fsSL --retry 3 "https://raw.githubusercontent.com/helloitswill/pequalnp-proofs/$SUBMISSION/$PROOF" -o "$RUNNER_TEMP/input/proof.lean"
+          (cd "$RUNNER_TEMP/input" && echo "$PROOF_SHA256  proof.lean" | sha256sum -c -)
+          curl -fsS --retry 3 https://data.pequalnp.com/data/desk/gaps.json -o "$RUNNER_TEMP/input/gaps.json"
+          cd project
+          node .github/scripts/outside-guard.mjs gap "$RUNNER_TEMP/input/gaps.json" L-meta-9361 "$PROOF" "$RUNNER_TEMP/input" check
+          node .github/scripts/outside-guard.mjs imports "$RUNNER_TEMP/input/proof.lean" "$RUNNER_TEMP/input/imports.json" "$PROOF" check
+          node .github/scripts/outside-guard.mjs closure "$PWD" "$RUNNER_TEMP/input/imports.json" "$PROOF" "$RUNNER_TEMP/input" check
+      - name: Prepare the hosted runner for Mathlib and the verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo rm -rf /usr/local/lib/android /opt/ghc /usr/local/.ghcup /usr/share/swift /opt/hostedtoolcache/CodeQL
+          disk=$(df -m --output=avail,target / /mnt | tail -n +2 | sort -rn | awk 'NR==1 {print $2}')
+          avail=$(df -m --output=avail "$disk" | tail -n 1)
+          if ((avail > 32768)); then
+            swapfile="$disk/rectangle-check-swap"
+            sudo fallocate -l 10G "$swapfile"
+            sudo chmod 600 "$swapfile"
+            sudo mkswap -q "$swapfile"
+            sudo swapon "$swapfile"
+          fi
+          df -h / /mnt
+          free -h
+          export ELAN_HOME="$RUNNER_TEMP/elan"
+          curl -fsSL --retry 3 "https://raw.githubusercontent.com/leanprover/elan/$ELAN_INSTALLER/elan-init.sh" -o "$RUNNER_TEMP/elan-init.sh"
+          sh "$RUNNER_TEMP/elan-init.sh" -y --no-modify-path --default-toolchain none
+          cd project/lean
+          "$ELAN_HOME/bin/elan" toolchain install "$(cat lean-toolchain)"
+          tc=$(dirname "$("$ELAN_HOME/bin/elan" which lake)")
+          echo "$tc" >> "$GITHUB_PATH"
+          echo "PEQUALNP_REAL_LAKE=$tc/lake" >> "$GITHUB_ENV"
+          echo "PEQUALNP_HOME=$RUNNER_TEMP/build-queue" >> "$GITHUB_ENV"
+          echo 'LAKE_ARTIFACT_CACHE=false' >> "$GITHUB_ENV"
+      - name: Fetch the Mathlib cache and build the pinned verifier and definitions
+        working-directory: project/lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          ../tools/bin/lake build checklemma +Mathlib +PEqualNP.Defs
+      - name: Kernel-check the posted rectangle-cover theorem
+        working-directory: project
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -m 0644 "$RUNNER_TEMP/input/proof.lean" "$PROOF"
+          node tools/check-lean.mjs "$PWD/$PROOF" "$RUNNER_TEMP/input/statement.txt" check
